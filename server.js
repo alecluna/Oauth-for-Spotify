@@ -25,7 +25,7 @@ app.get('/callback', function(req, res) {
     form: {
       code: code,
       redirect_uri,
-      grant_type: 'authorization_code'
+      grant_type: 'client_credentials'
     },
     headers: {
       'Authorization': 'Basic ' + (new Buffer(
