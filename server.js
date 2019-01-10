@@ -85,13 +85,13 @@ app.get("/callback", function(req, res) {
       let uri = process.env.FRONTEND_URI || "http://localhost:3000";
       res.redirect(uri + "?access_token=" + access_token);
 
-      res.redirect(
-        uri +
-          querystring.stringify({
-            access_token: access_token,
-            refresh_token: refresh_token
-          })
-      );
+      // res.redirect(
+      //   uri +
+      //     querystring.stringify({
+      //       access_token: access_token,
+      //       refresh_token: refresh_token
+      //     })
+      // );
     } else {
       res.redirect(
         uri +
