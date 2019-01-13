@@ -77,6 +77,7 @@ app.get("/callback", function(req, res) {
       json: true
     };
   }
+
   request.post(authOptions, function(error, response, body) {
     if (!error && response.statusCode === 200) {
       var access_token = body.access_token,
@@ -84,14 +85,6 @@ app.get("/callback", function(req, res) {
 
       let uri = process.env.FRONTEND_URI || "http://localhost:3000";
       res.redirect(uri + "?access_token=" + access_token);
-
-      // res.redirect(
-      //   uri +
-      //     querystring.stringify({
-      //       access_token: access_token,
-      //       refresh_token: refresh_token
-      //     })
-      // );
     } else {
       res.redirect(
         uri +
