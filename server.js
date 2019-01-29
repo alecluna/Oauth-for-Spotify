@@ -1,9 +1,22 @@
 let express = require("express");
 let request = require("request");
-var cors = require("cors");
-var querystring = require("querystring");
-var cookieParser = require("cookie-parser");
+let cors = require("cors");
+let querystring = require("querystring");
+let cookieParser = require("cookie-parser");
+let Pusher = require("pusher");
 require("dotenv").config();
+
+var pusher = new Pusher({
+  appId: "702485",
+  key: "c6ecf9f5f543d9e5c82d",
+  secret: "8ef8b7286a6ef3a93f87",
+  cluster: "us2",
+  encrypted: true
+});
+
+pusher.trigger("my-channel", "my-event", {
+  message: "hello world"
+});
 
 /**
  * Generates a random string containing numbers and letters
