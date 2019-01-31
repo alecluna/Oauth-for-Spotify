@@ -3,21 +3,10 @@ let request = require("request");
 let cors = require("cors");
 let querystring = require("querystring");
 let cookieParser = require("cookie-parser");
-let Pusher = require("pusher");
+let pusher = require("./pusher");
 require("dotenv").config();
 
-var pusher = new Pusher({
-  appId: "702485",
-  key: "c6ecf9f5f543d9e5c82d",
-  secret: "8ef8b7286a6ef3a93f87",
-  cluster: "us2",
-  encrypted: true
-});
-
-pusher.trigger("my-channel", "my-event", {
-  message: "hello world"
-});
-
+pusher.pusher();
 /**
  * Generates a random string containing numbers and letters
  * @param  {number} length The length of the string
