@@ -11,7 +11,8 @@ module.exports = {
     });
 
     pusher.trigger("my-channel", "my-event", {
-      message: "hello world"
+      message: "hello world",
+      test: "this is a test response"
     });
   }
 };

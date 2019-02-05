@@ -3,10 +3,10 @@ let request = require("request");
 let cors = require("cors");
 let querystring = require("querystring");
 let cookieParser = require("cookie-parser");
-let pusher = require("./pusher");
+//let pusher = require("./pusher");
 require("dotenv").config();
 
-pusher.pusher();
+//pusher.pusher();
 /**
  * Generates a random string containing numbers and letters
  * @param  {number} length The length of the string
