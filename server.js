@@ -3,40 +3,38 @@ let request = require("request");
 let cors = require("cors");
 let querystring = require("querystring");
 let cookieParser = require("cookie-parser");
-//let pusher = require("./pusher");
 require("dotenv").config();
 
-//pusher.pusher();
 /**
  * Generates a random string containing numbers and letters
  * @param  {number} length The length of the string
  * @return {string} The generated string
  */
-var generateRandomString = function(length) {
-  var text = "";
-  var possible =
+let generateRandomString = length => {
+  let text = "";
+  let possible =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-  for (var i = 0; i < length; i++) {
+  for (let i = 0; i < length; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   }
   return text;
 };
 
-var stateKey = "spotify_auth_state";
+let stateKey = "spotify_auth_state";
 
-var app = express();
+let app = express();
 
 app.use(cors()).use(cookieParser());
 
 let redirect_uri = process.env.REDIRECT_URI || "http://localhost:8888/callback";
 
 app.get("/login", function(req, res) {
-  var state = generateRandomString(16);
+  let state = generateRandomString(16);
   res.cookie(stateKey, state);
 
   // application requests authorization
-  var scope =
+  let scope =
     "user-read-private user-read-email playlist-modify-private playlist-modify-public";
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
@@ -50,12 +48,12 @@ app.get("/login", function(req, res) {
   );
 });
 
-//redirect link that retrievs a token
+//redirect link that retrieves a token
 app.get("/callback", function(req, res) {
-  var uri = process.env.FRONTEND_URI || "http://localhost:3000";
-  var code = req.query.code || null;
-  var state = req.query.state || null;
-  var storedState = req.cookies ? req.cookies[stateKey] : null;
+  let uri = process.env.FRONTEND_URI || "http://localhost:3000";
+  let code = req.query.code || null;
+  let state = req.query.state || null;
+  let storedState = req.cookies ? req.cookies[stateKey] : null;
 
   if (state === null || state !== storedState) {
     res.redirect(uri + querystring.stringify({ error: "state_mismatch" }));
@@ -83,7 +81,7 @@ app.get("/callback", function(req, res) {
 
   request.post(authOptions, function(error, response, body) {
     if (!error && response.statusCode === 200) {
-      var access_token = body.access_token,
+      let access_token = body.access_token,
         refresh_token = body.refresh_token;
 
       let uri = process.env.FRONTEND_URI || "http://localhost:3000";
@@ -101,8 +99,8 @@ app.get("/callback", function(req, res) {
 
 app.get("/refresh_token", function(req, res) {
   // requesting access token from refresh token
-  var refresh_token = req.query.refresh_token;
-  var authOptions = {
+  let refresh_token = req.query.refresh_token;
+  let authOptions = {
     url: "https://accounts.spotify.com/api/token",
     headers: {
       Authorization:
@@ -122,7 +120,7 @@ app.get("/refresh_token", function(req, res) {
 
   request.post(authOptions, function(error, response, body) {
     if (!error && response.statusCode === 200) {
-      var access_token = body.access_token;
+      let access_token = body.access_token;
       res.send({
         access_token: access_token
       });
