@@ -35,7 +35,7 @@ app.get("/login", function(req, res) {
 
   // application requests authorization
   let scope =
-    "user-read-private user-read-email playlist-modify-private playlist-modify-public";
+    "user-read-private user-read-email playlist-read-private playlist-modify-private playlist-modify-public playlist-read-collaborative";
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
@@ -79,7 +79,7 @@ app.get("/callback", function(req, res) {
     };
   }
 
-  request.post(authOptions, function(error, response, body) {
+  request.post(authOptions, (error, response, body) => {
     if (!error && response.statusCode === 200) {
       let access_token = body.access_token;
       let uri = process.env.FRONTEND_URI || "http://localhost:3000";
@@ -113,7 +113,7 @@ app.get("/refresh_token", function(req, res) {
     json: true
   };
 
-  request.post(authOptions, function(error, response, body) {
+  request.post(authOptions, (error, response, body) => {
     if (!error && response.statusCode === 200) {
       let access_token = body.access_token;
       res.send({
